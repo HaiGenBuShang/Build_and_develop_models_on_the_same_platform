@@ -20,7 +20,7 @@ Xiangnan Li
 #************************
 #*YOU SHOULD NOTE THAT!!!
 #************************
-Please read the comments in the scripts named with "model_building_for" in the "Data_and_Scripts_for_manuscripts" directory.
+Please read the comments in the scripts named with "model_building_for" in the "Data_and_Scripts_for_manuscripts/Scripts" directory.
 The comments mainly tell you that 
 when you run the scripts, the scripts labeled as:
 #**************
