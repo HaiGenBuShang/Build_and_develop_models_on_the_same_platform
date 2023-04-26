@@ -9,6 +9,6 @@ If you have any questions,
 contact me directly!
 
 E-mail:
-Xiangnan_li@fudan.edu.cn/aa4311313@gmail.com
+xiangnan_li@fudan.edu.cn/aa4311313@gmail.com
 
 Xiangnan Li
