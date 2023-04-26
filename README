@@ -2,9 +2,11 @@
 
 These scripts are for a manuscript entitled with "The Importance of Development and Application Subtyping Models on the Same Platform".
 
-Using the scripts and data in the directory "Data_and_Scripts_for_manuscripts", you could reproduce all the results and figures in the manuscripts.
+Using the scripts and data in the directory "Data_and_Scripts_for_manuscripts/Scripts", you could reproduce all the results and figures in the manuscripts.
 
 The "original_scripts" directory includes (almost) all analysis related to the manuscript.
+
+Most scripts in "Data_and_Scripts_for_manuscripts/Scripts" are adapted from scripts in "original_scripts".
 
 If you have any questions,
 contact me directly!
@@ -13,3 +15,15 @@ E-mail:
 xiangnan_li@fudan.edu.cn/aa4311313@gmail.com
 
 Xiangnan Li
+
+
+#************************
+#*YOU SHOULD NOTE THAT!!!
+#************************
+Please read the comments in the scripts named with "model_building_for" in the "Data_and_Scripts_for_manuscripts" directory.
+The comments mainly tell you that 
+when you run the scripts, the scripts labeled as:
+#**************
+#*Script Part X
+#**************
+should be run separately for several times to build the model.
