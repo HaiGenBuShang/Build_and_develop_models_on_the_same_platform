@@ -157,129 +157,15 @@ dev.off()
 
 
 
-##*********************
-##*median centered data
-##*********************
-#RNA_seq data
-tumor_expr <- RNA_seq_expr_for_clust[,intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))]
-#scale RNA-seq data
-tumor_expr <- t(apply(tumor_expr,1,function(x)x-median(x)))
-colnames(tumor_expr) <- intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))
-
-data("pam50")
-PAM50_subtyping_res_RNA_seq_PAM50 <- intrinsic.cluster.predict(sbt.model = pam50,data = t(tumor_expr),
-                                                               annot = data.frame(Gene.Symbol=rownames(tumor_expr),
-                                                                                  stringsAsFactors = FALSE),
-                                                               do.mapping = FALSE)
-
-
-tumor_expr <- 2^tumor_expr
-tumor_expr <- tumor_expr[!is.na(match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol)),]
-anno <- TCGA_symbol_and_entrez[match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol),]
-PAM50_subtyping_res_RNA_seq_AIMS <- molecular.subtyping(sbt.model = "AIMS",data = t(tumor_expr),
-                                                        annot = anno,
-                                                        do.mapping = FALSE)
-
-
-#array data 
-tumor_expr <- array_expr_for_clust[,intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))]
-tumor_expr <- t(apply(tumor_expr,1,function(x)x-median(x)))
-colnames(tumor_expr) <- intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))
-
-data("pam50")
-PAM50_subtyping_res_array_PAM50 <- intrinsic.cluster.predict(sbt.model = pam50,data = t(tumor_expr),
-                                                             annot = data.frame(Gene.Symbol=rownames(tumor_expr),
-                                                                                stringsAsFactors = FALSE),
-                                                             do.mapping = FALSE)
-tumor_expr <- 2^tumor_expr
-tumor_expr <- tumor_expr[!is.na(match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol)),]
-anno <- TCGA_symbol_and_entrez[match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol),]
-PAM50_subtyping_res_array_AIMS <- molecular.subtyping(sbt.model = "AIMS",data = t(tumor_expr),
-                                                      annot = anno,
-                                                      do.mapping = FALSE)
-
-clustering_dat_for_plot <- cbind(PAM50_subtyping_res_RNA_seq_PAM50$subtype,PAM50_subtyping_res_array_PAM50$subtype,
-                                 PAM50_subtyping_res_RNA_seq_AIMS$subtype[,1],
-                                 PAM50_subtyping_res_array_AIMS$subtype[,1]) %>% 
-  as.data.frame() %>% mutate(barcode=rownames(.)) %>% 
-  rename(RNA_seq_PAM50=1,Array_PAM50=2,RNA_seq_AIMS=3,Array_AIMS=4)
-
-
-pdf("../Results/Figure/Supplementary_Figure_2b_median_centered.pdf",width = 10,height = 5)
-clustering_dat_for_plot %>% arrange(RNA_seq_PAM50,Array_PAM50,RNA_seq_AIMS,Array_AIMS) %>% 
-  mutate(barcode=factor(barcode,levels = unique(barcode))) %>% 
-  pivot_longer(cols = -barcode,names_to = "Clustering",values_to = "value") %>% 
-  mutate(Clustering=factor(Clustering,levels = c("RNA_seq_PAM50","Array_PAM50","RNA_seq_AIMS","Array_AIMS")[4:1])) %>% 
-  ggplot() +
-  geom_tile(aes(x=barcode,y=Clustering,fill=factor(value))) +
-  #scale_fill_viridis(discrete=FALSE) +
-  scale_fill_brewer(palette = "Set1") +
-  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank(),
-        panel.background = element_blank(),axis.text.y = element_text(size=15),legend.position = "bottom") +
-  labs(x='',y='',fill='Subtypes') 
-dev.off()
-
-##*********************
-##*mean centered data
-##*********************
-#RNA_seq data
-tumor_expr <- RNA_seq_expr_for_clust[,intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))]
-#scale RNA-seq data
-tumor_expr <- t(apply(tumor_expr,1,function(x)x-mean(x)))
-colnames(tumor_expr) <- intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))
-
-data("pam50")
-PAM50_subtyping_res_RNA_seq_PAM50 <- intrinsic.cluster.predict(sbt.model = pam50,data = t(tumor_expr),
-                                                               annot = data.frame(Gene.Symbol=rownames(tumor_expr),
-                                                                                  stringsAsFactors = FALSE),
-                                                               do.mapping = FALSE)
-
-
-tumor_expr <- 2^tumor_expr
-tumor_expr <- tumor_expr[!is.na(match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol)),]
-anno <- TCGA_symbol_and_entrez[match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol),]
-PAM50_subtyping_res_RNA_seq_AIMS <- molecular.subtyping(sbt.model = "AIMS",data = t(tumor_expr),
-                                                        annot = anno,
-                                                        do.mapping = FALSE)
-
-
-#array data 
-tumor_expr <- array_expr_for_clust[,intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))]
-tumor_expr <- t(apply(tumor_expr,1,function(x)x-mean(x)))
-colnames(tumor_expr) <- intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))
-
-data("pam50")
-PAM50_subtyping_res_array_PAM50 <- intrinsic.cluster.predict(sbt.model = pam50,data = t(tumor_expr),
-                                                             annot = data.frame(Gene.Symbol=rownames(tumor_expr),
-                                                                                stringsAsFactors = FALSE),
-                                                             do.mapping = FALSE)
-tumor_expr <- 2^tumor_expr
-tumor_expr <- tumor_expr[!is.na(match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol)),]
-anno <- TCGA_symbol_and_entrez[match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol),]
-PAM50_subtyping_res_array_AIMS <- molecular.subtyping(sbt.model = "AIMS",data = t(tumor_expr),
-                                                      annot = anno,
-                                                      do.mapping = FALSE)
-
-clustering_dat_for_plot <- cbind(PAM50_subtyping_res_RNA_seq_PAM50$subtype,PAM50_subtyping_res_array_PAM50$subtype,
-                                 PAM50_subtyping_res_RNA_seq_AIMS$subtype[,1],
-                                 PAM50_subtyping_res_array_AIMS$subtype[,1]) %>% 
-  as.data.frame() %>% mutate(barcode=rownames(.)) %>% 
-  rename(RNA_seq_PAM50=1,Array_PAM50=2,RNA_seq_AIMS=3,Array_AIMS=4)
-
-
-pdf("../Results/Figure/Supplementary_Figure_2a_median_centered.pdf",width = 10,height = 5)
-clustering_dat_for_plot %>% arrange(RNA_seq_PAM50,Array_PAM50,RNA_seq_AIMS,Array_AIMS) %>% 
-  mutate(barcode=factor(barcode,levels = unique(barcode))) %>% 
-  pivot_longer(cols = -barcode,names_to = "Clustering",values_to = "value") %>% 
-  mutate(Clustering=factor(Clustering,levels = c("RNA_seq_PAM50","Array_PAM50","RNA_seq_AIMS","Array_AIMS")[4:1])) %>% 
-  ggplot() +
-  geom_tile(aes(x=barcode,y=Clustering,fill=factor(value))) +
-  #scale_fill_viridis(discrete=FALSE) +
-  scale_fill_brewer(palette = "Set1") +
-  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank(),
-        panel.background = element_blank(),axis.text.y = element_text(size=15),legend.position = "bottom") +
-  labs(x='',y='',fill='Subtypes') 
-dev.off()
+#Sclaed Kappa
+caret::confusionMatrix(data = factor(clustering_dat_for_plot$RNA_seq_PAM50,
+                                     levels = c("Basal","Her2","LumA","LumB","Normal")),
+                       reference = factor(clustering_dat_for_plot$Array_PAM50,
+                                          levels = c("Basal","Her2","LumA","LumB","Normal")))
+caret::confusionMatrix(data = factor(clustering_dat_for_plot$RNA_seq_AIMS,
+                                     levels = c("Basal","Her2","LumA","LumB","Normal")),
+                       reference = factor(clustering_dat_for_plot$Array_AIMS,
+                                          levels = c("Basal","Her2","LumA","LumB","Normal")))
 
 
 #Original value subtyping using PAM50 and AIMS
@@ -335,6 +221,18 @@ clustering_dat_for_plot_2 %>% arrange(RNA_seq_PAM50,Array_PAM50,RNA_seq_AIMS,Arr
         panel.background = element_blank(),axis.text.y = element_text(size=15),legend.position = "bottom") +
   labs(x='',y='',fill='Subtypes')
 dev.off()
+
+
+#Original Kappa
+caret::confusionMatrix(data = factor(clustering_dat_for_plot_2$RNA_seq_PAM50,
+                                     levels = c("Basal","Her2","LumA","LumB","Normal")),
+                       reference = factor(clustering_dat_for_plot_2$Array_PAM50,
+                                          levels = c("Basal","Her2","LumA","LumB","Normal")))
+caret::confusionMatrix(data = factor(clustering_dat_for_plot_2$RNA_seq_AIMS,
+                                     levels = c("Basal","Her2","LumA","LumB","Normal")),
+                       reference = factor(clustering_dat_for_plot_2$Array_AIMS,
+                                          levels = c("Basal","Her2","LumA","LumB","Normal")))
+
 
 
 
@@ -408,25 +306,8 @@ dev.off()
 
 
 
-#Original Kappa
-caret::confusionMatrix(data = factor(clustering_dat_for_plot_2$RNA_seq_PAM50,
-                                     levels = c("Basal","Her2","LumA","LumB","Normal")),
-                       reference = factor(clustering_dat_for_plot_2$Array_PAM50,
-                                          levels = c("Basal","Her2","LumA","LumB","Normal")))
-caret::confusionMatrix(data = factor(clustering_dat_for_plot_2$RNA_seq_AIMS,
-                                     levels = c("Basal","Her2","LumA","LumB","Normal")),
-                       reference = factor(clustering_dat_for_plot_2$Array_AIMS,
-                                          levels = c("Basal","Her2","LumA","LumB","Normal")))
 
-#Sclaed Kappa
-caret::confusionMatrix(data = factor(clustering_dat_for_plot$RNA_seq_PAM50,
-                                     levels = c("Basal","Her2","LumA","LumB","Normal")),
-                       reference = factor(clustering_dat_for_plot$Array_PAM50,
-                                          levels = c("Basal","Her2","LumA","LumB","Normal")))
-caret::confusionMatrix(data = factor(clustering_dat_for_plot$RNA_seq_AIMS,
-                                     levels = c("Basal","Her2","LumA","LumB","Normal")),
-                       reference = factor(clustering_dat_for_plot$Array_AIMS,
-                                          levels = c("Basal","Her2","LumA","LumB","Normal")))
+
 
 
 ##select Basal samples to predicting
@@ -560,6 +441,154 @@ pheatmap(mat = combined_dat,labels_row = rep('',nrow(combined_dat)),
          annotation_col = annotation_col,fontsize_col = 2,clustering_method = "ward.D",annotation_colors = anno_color,
          color = colorRampPalette(c("green", "black", "firebrick3"))(101),breaks = seq(-2,2,length.out=101))
 dev.off()
+
+
+
+
+
+
+
+
+##*********************
+##*median centered data
+##*********************
+#RNA_seq data
+tumor_expr <- RNA_seq_expr_for_clust[,intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))]
+#scale RNA-seq data
+tumor_expr <- t(apply(tumor_expr,1,function(x)x-median(x)))
+colnames(tumor_expr) <- intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))
+
+data("pam50")
+PAM50_subtyping_res_RNA_seq_PAM50 <- intrinsic.cluster.predict(sbt.model = pam50,data = t(tumor_expr),
+                                                               annot = data.frame(Gene.Symbol=rownames(tumor_expr),
+                                                                                  stringsAsFactors = FALSE),
+                                                               do.mapping = FALSE)
+
+
+tumor_expr <- 2^tumor_expr
+tumor_expr <- tumor_expr[!is.na(match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol)),]
+anno <- TCGA_symbol_and_entrez[match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol),]
+PAM50_subtyping_res_RNA_seq_AIMS <- molecular.subtyping(sbt.model = "AIMS",data = t(tumor_expr),
+                                                        annot = anno,
+                                                        do.mapping = FALSE)
+
+
+#array data 
+tumor_expr <- array_expr_for_clust[,intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))]
+tumor_expr <- t(apply(tumor_expr,1,function(x)x-median(x)))
+colnames(tumor_expr) <- intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))
+
+data("pam50")
+PAM50_subtyping_res_array_PAM50 <- intrinsic.cluster.predict(sbt.model = pam50,data = t(tumor_expr),
+                                                             annot = data.frame(Gene.Symbol=rownames(tumor_expr),
+                                                                                stringsAsFactors = FALSE),
+                                                             do.mapping = FALSE)
+tumor_expr <- 2^tumor_expr
+tumor_expr <- tumor_expr[!is.na(match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol)),]
+anno <- TCGA_symbol_and_entrez[match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol),]
+PAM50_subtyping_res_array_AIMS <- molecular.subtyping(sbt.model = "AIMS",data = t(tumor_expr),
+                                                      annot = anno,
+                                                      do.mapping = FALSE)
+
+clustering_dat_for_plot <- cbind(PAM50_subtyping_res_RNA_seq_PAM50$subtype,PAM50_subtyping_res_array_PAM50$subtype,
+                                 PAM50_subtyping_res_RNA_seq_AIMS$subtype[,1],
+                                 PAM50_subtyping_res_array_AIMS$subtype[,1]) %>% 
+  as.data.frame() %>% mutate(barcode=rownames(.)) %>% 
+  rename(RNA_seq_PAM50=1,Array_PAM50=2,RNA_seq_AIMS=3,Array_AIMS=4)
+
+
+pdf("../Results/Figure/Supplementary_Figure_2b_median_centered.pdf",width = 10,height = 5)
+clustering_dat_for_plot %>% arrange(RNA_seq_PAM50,Array_PAM50,RNA_seq_AIMS,Array_AIMS) %>% 
+  mutate(barcode=factor(barcode,levels = unique(barcode))) %>% 
+  pivot_longer(cols = -barcode,names_to = "Clustering",values_to = "value") %>% 
+  mutate(Clustering=factor(Clustering,levels = c("RNA_seq_PAM50","Array_PAM50","RNA_seq_AIMS","Array_AIMS")[4:1])) %>% 
+  ggplot() +
+  geom_tile(aes(x=barcode,y=Clustering,fill=factor(value))) +
+  #scale_fill_viridis(discrete=FALSE) +
+  scale_fill_brewer(palette = "Set1") +
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank(),
+        panel.background = element_blank(),axis.text.y = element_text(size=15),legend.position = "bottom") +
+  labs(x='',y='',fill='Subtypes') 
+dev.off()
+
+##*********************
+##*mean centered data
+##*********************
+#RNA_seq data
+tumor_expr <- RNA_seq_expr_for_clust[,intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))]
+#scale RNA-seq data
+tumor_expr <- t(apply(tumor_expr,1,function(x)x-mean(x)))
+colnames(tumor_expr) <- intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))
+
+data("pam50")
+PAM50_subtyping_res_RNA_seq_PAM50 <- intrinsic.cluster.predict(sbt.model = pam50,data = t(tumor_expr),
+                                                               annot = data.frame(Gene.Symbol=rownames(tumor_expr),
+                                                                                  stringsAsFactors = FALSE),
+                                                               do.mapping = FALSE)
+
+
+tumor_expr <- 2^tumor_expr
+tumor_expr <- tumor_expr[!is.na(match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol)),]
+anno <- TCGA_symbol_and_entrez[match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol),]
+PAM50_subtyping_res_RNA_seq_AIMS <- molecular.subtyping(sbt.model = "AIMS",data = t(tumor_expr),
+                                                        annot = anno,
+                                                        do.mapping = FALSE)
+
+
+#array data 
+tumor_expr <- array_expr_for_clust[,intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))]
+tumor_expr <- t(apply(tumor_expr,1,function(x)x-mean(x)))
+colnames(tumor_expr) <- intersect(colnames(RNA_seq_expr_for_clust),colnames(array_expr_for_clust))
+
+data("pam50")
+PAM50_subtyping_res_array_PAM50 <- intrinsic.cluster.predict(sbt.model = pam50,data = t(tumor_expr),
+                                                             annot = data.frame(Gene.Symbol=rownames(tumor_expr),
+                                                                                stringsAsFactors = FALSE),
+                                                             do.mapping = FALSE)
+tumor_expr <- 2^tumor_expr
+tumor_expr <- tumor_expr[!is.na(match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol)),]
+anno <- TCGA_symbol_and_entrez[match(rownames(tumor_expr),TCGA_symbol_and_entrez$Gene.Symbol),]
+PAM50_subtyping_res_array_AIMS <- molecular.subtyping(sbt.model = "AIMS",data = t(tumor_expr),
+                                                      annot = anno,
+                                                      do.mapping = FALSE)
+
+clustering_dat_for_plot <- cbind(PAM50_subtyping_res_RNA_seq_PAM50$subtype,PAM50_subtyping_res_array_PAM50$subtype,
+                                 PAM50_subtyping_res_RNA_seq_AIMS$subtype[,1],
+                                 PAM50_subtyping_res_array_AIMS$subtype[,1]) %>% 
+  as.data.frame() %>% mutate(barcode=rownames(.)) %>% 
+  rename(RNA_seq_PAM50=1,Array_PAM50=2,RNA_seq_AIMS=3,Array_AIMS=4)
+
+
+pdf("../Results/Figure/Supplementary_Figure_2a_mean_centered.pdf",width = 10,height = 5)
+clustering_dat_for_plot %>% arrange(RNA_seq_PAM50,Array_PAM50,RNA_seq_AIMS,Array_AIMS) %>% 
+  mutate(barcode=factor(barcode,levels = unique(barcode))) %>% 
+  pivot_longer(cols = -barcode,names_to = "Clustering",values_to = "value") %>% 
+  mutate(Clustering=factor(Clustering,levels = c("RNA_seq_PAM50","Array_PAM50","RNA_seq_AIMS","Array_AIMS")[4:1])) %>% 
+  ggplot() +
+  geom_tile(aes(x=barcode,y=Clustering,fill=factor(value))) +
+  #scale_fill_viridis(discrete=FALSE) +
+  scale_fill_brewer(palette = "Set1") +
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank(),
+        panel.background = element_blank(),axis.text.y = element_text(size=15),legend.position = "bottom") +
+  labs(x='',y='',fill='Subtypes') 
+dev.off()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

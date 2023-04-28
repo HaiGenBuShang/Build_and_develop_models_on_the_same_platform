@@ -43,6 +43,14 @@ BRCA_array_expr <- array_expr %>% reduce(left_join,by="Hybridization REF")
 BRCA_array_expr <- BRCA_array_expr %>% data.frame(row.names = 1, check.names = FALSE)
 BRCA_array_clin <- colData(BRCA_microarray)
 
+# BRCA_array_expr_sample_order <- read.table("BRCA_array_expr_samples.txt",
+#                                            header = FALSE,sep = "\t",stringsAsFactors = FALSE)[,1]
+# BRCA_array_clin_sample_order <- read.table("BRCA_array_clin_samples.txt",
+#                                            header = FALSE,sep = "\t",stringsAsFactors = FALSE)[,1]
+# 
+# BRCA_array_expr <- BRCA_array_expr[,BRCA_array_expr_sample_order]
+# BRCA_array_clin <- BRCA_array_clin[BRCA_array_clin_sample_order,]
+
 save(BRCA_array_expr,BRCA_array_clin,file = "20221216_BRCA_microarray_expression.RData")
 
 
@@ -75,6 +83,17 @@ gene_info <- rowData(expr) %>% as.data.frame()
 X1_genename <- apply(X1,2,function(x){
   tapply(x,gene_info$gene_name,mean)
 })
+
+# X1_sample_order <- read.table("X1_samples.txt",
+#                               header = FALSE,sep = "\t",stringsAsFactors = FALSE)[,1]
+# A_sample_order <- read.table("A_samples.txt",
+#                              header = FALSE,sep = "\t",stringsAsFactors = FALSE)[,1]
+# 
+# X1 <- X1[,X1_sample_order]
+# X1_genename <- X1_genename[,X1_sample_order]
+# A <- A[A_sample_order,]
+
+
 save(X1,A,X1_genename,file = "R_data/BRCA/Expr_and_pheno.RData")
 
 

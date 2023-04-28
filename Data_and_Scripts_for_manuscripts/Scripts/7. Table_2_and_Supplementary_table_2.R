@@ -406,7 +406,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$PAM_and_PAM_plus_Cor$`",nth,"`$predict_res$test_set$pam_predict")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect,array_pred = array_intersect,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
+})[which.max(sapply(RNA_seq_intersect$PAM_and_PAM_plus_Cor,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$predicted_confusions$test_set$PAM_and_real$table))
+}))]
 
 #**********************
 #*PAM+Spearman all gene
@@ -416,7 +418,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$PAM_and_PAM_plus_Cor$`",nth,"`$predict_res$test_set$cor_predict")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect,array_pred = array_intersect,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
+})[which.max(sapply(RNA_seq_intersect$PAM_and_PAM_plus_Cor,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$predicted_confusions$test_set$Cor_and_real$table))
+}))]
 
 #***************
 #*ClaNC all gene
@@ -426,7 +430,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$ClaNC_and_PAM_train$`",nth,"`$ClaNC_res$testing_predicted_res")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect,array_pred = array_intersect,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
+})[which.max(sapply(RNA_seq_intersect$ClaNC_and_PAM_train,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$ClaNC_res$predicted_confusions$test_set$table))
+}))]
 
 #*******************
 #*ClaNC+PAM all gene
@@ -436,7 +442,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$ClaNC_and_PAM_train$`",nth,"`$PAM_res$predict_res$test_set$pam_predict")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect,array_pred = array_intersect,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
+})[which.max(sapply(RNA_seq_intersect$ClaNC_and_PAM_train,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$PAM_res$predicted_confusions$test_set$PAM_and_real$table))
+}))]
 
 #****************************
 #*ClaNC+PAM+Spearman all gene
@@ -446,7 +454,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$ClaNC_and_PAM_train$`",nth,"`$PAM_res$predict_res$test_set$cor_predict")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect,array_pred = array_intersect,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
+})[which.max(sapply(RNA_seq_intersect$ClaNC_and_PAM_train,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$PAM_res$predicted_confusions$test_set$Cor_and_real$table))
+}))]
 
 
 
@@ -466,7 +476,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$PAM_and_PAM_plus_Cor$`",nth,"`$predict_res$test_set$pam_predict")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect_intr,array_pred = array_intersect_intr,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
+})[which.max(sapply(RNA_seq_intersect_intr$PAM_and_PAM_plus_Cor,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$predicted_confusions$test_set$PAM_and_real$table))
+}))]
 
 #****************************
 #*PAM+Spearman intrinsic gene
@@ -476,7 +488,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$PAM_and_PAM_plus_Cor$`",nth,"`$predict_res$test_set$cor_predict")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect_intr,array_pred = array_intersect_intr,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
+})[which.max(sapply(RNA_seq_intersect_intr$PAM_and_PAM_plus_Cor,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$predicted_confusions$test_set$Cor_and_real$table))
+}))]
 
 #*********************
 #*ClaNC intrinsic gene
@@ -486,7 +500,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$ClaNC_and_PAM_train$`",nth,"`$ClaNC_res$testing_predicted_res")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect_intr,array_pred = array_intersect_intr,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
+})[which.max(sapply(RNA_seq_intersect_intr$ClaNC_and_PAM_train,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$ClaNC_res$predicted_confusions$test_set$table))
+}))]
 
 #*************************
 #*ClaNC+PAM intrinsic gene
@@ -496,7 +512,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$ClaNC_and_PAM_train$`",nth,"`$PAM_res$predict_res$test_set$pam_predict")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect_intr,array_pred = array_intersect_intr,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
+})[which.max(sapply(RNA_seq_intersect_intr$ClaNC_and_PAM_train,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$PAM_res$predicted_confusions$test_set$PAM_and_real$table))
+}))]
 
 #**********************************
 #*ClaNC+PAM+Spearman intrinsic gene
@@ -506,8 +524,9 @@ sapply(1:20,function(x){
   compare_part <- paste0("$ClaNC_and_PAM_train$`",nth,"`$PAM_res$predict_res$test_set$cor_predict")
   kappa_between_array_and_RNA_seq(RNA_pred = RNA_seq_intersect_intr,array_pred = array_intersect_intr,
                                   compare_part=compare_part)$overall["Kappa"]
-}) %>% mean()
-
+})[which.max(sapply(RNA_seq_intersect_intr$ClaNC_and_PAM_train,function(x){
+  mltools::mcc(confusionM = as.matrix.data.frame(x$PAM_res$predicted_confusions$test_set$Cor_and_real$table))
+}))]
 
 
 

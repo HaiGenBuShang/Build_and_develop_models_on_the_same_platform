@@ -256,8 +256,10 @@ RNA_seq_testing_sam_class <- predict.one.vs.all.tsp(D = expr_dat[,testing_sample
 
 combined_predicting <- array_testing_sam_class %>%  left_join(RNA_seq_testing_sam_class,by="barcode")
 
-mltools::mcc(confusionM = as.matrix.data.frame(table(combined_predicting$Cluster_in_array,
-                                                     combined_predicting$Cluster_in_RNA_seq)))
+mltools::mcc(confusionM = as.matrix.data.frame(table(factor(combined_predicting$Cluster_in_array,
+                                                            levels = as.character(1:5)),
+                                                     factor(combined_predicting$Cluster_in_RNA_seq,
+                                                            levels = as.character(1:5)))))
 
 #********************
 #*Gene-pairs all gene

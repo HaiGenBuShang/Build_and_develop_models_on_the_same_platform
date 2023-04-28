@@ -12,11 +12,10 @@ message(paste0("Make sure the package \"e107\" \"gplots\" \"ROCR\" and \"multico
                "Besides, make sure there are no duplcated rownames in the expression matrix!!!"))
 
 
-setwd("/mnt/Miscrosoft/Shi_lab/Breast_cancer/ClaNC_classifier/clanc_share/")
-source("clanc.R")
-source("../../New_PAM50_classifier/scripts/all_functions_20220302.R")
-setwd("/mnt/Miscrosoft/Shi_lab/Breast_cancer/New_PAM50_classifier/scripts/trainAIMS-master/trainAIMS-master/")
-source("trainAIMS_2.R")
+setwd("../Scripts/")
+source("./clanc.R")
+source("./all_functions_20220302.R")
+source("./trainAIMS_2.R")
 
 
 #*****************
@@ -46,7 +45,7 @@ AIMS_train_and_pred <- function(train_and_test_data_with_lable,PREFIX,k.fold,num
 
 set.seed(12345678)
 #down load TCGA BRCA expressions
-setwd("/mnt/Miscrosoft/Brease_Cancer_subtyping/Data/")
+setwd("../Data/")
 
 # array data
 load("20221216_BRCA_microarray_expression.RData")
@@ -106,7 +105,7 @@ cluster_sample_subtypes <- as.character(samples_of_classes)
 
 
 #genes intersected with RNA_seq data
-load("/mnt/Miscrosoft/TCGA_project/Data/R_data/TCGA-BRCA/Expr_and_pheno.RData")
+load("./R_data/BRCA/Expr_and_pheno.RData")
 expr_dat <- X1_genename
 RNA_seq_genes <- rownames(expr_dat)
 intersect_genes <- intersect(RNA_seq_genes,rownames(tumor_expr))
@@ -121,7 +120,7 @@ res_prefix <- "TCGA_array_intersect_gene_train_and_test"
 res_prefix_intrinsic <- "TCGA_array_intersect_gene_train_and_test_intrinsic_gene"
 
 #using all genes
-setwd("/mnt/Miscrosoft/Brease_Cancer_subtyping/Results/")
+setwd("../Results/")
 
 
 #****************
@@ -138,30 +137,30 @@ setwd("/mnt/Miscrosoft/Brease_Cancer_subtyping/Results/")
 #*Until you finish runing all the script parts
 #***********************************************************************************
 
-#**************
-#*Script Part 1
-#**************
-set.seed(12345678)
-train_and_test_with_label <- produce_train_test_set(expr_with_label = datset_for_model)
-train_and_test_res <- AIMS_train_and_pred(train_and_test_data_with_lable = train_and_test_with_label,
-                                          PREFIX = res_prefix,
-                                          k.fold = 10,num.of.rules = seq(1,50,1))
-save(train_and_test_res,file = paste0(res_prefix,"_AIMS_training_res.RData"))
-message("Finished all genes AIMS!")
-
-
-
-#**************
-#*Script Part 2
-#**************
-set.seed(12345678)
-#using intrinsic genes
-train_and_test_with_label_intrinsic <- produce_train_test_set(expr_with_label = datset_for_model_intrinsic_g)
-train_and_test_res_intrinsic<-AIMS_train_and_pred(
-  train_and_test_data_with_lable=train_and_test_with_label_intrinsic,PREFIX = res_prefix_intrinsic,
-  k.fold = 10,num.of.rules = seq(1,50,1))
-save(train_and_test_res_intrinsic,file = paste0(res_prefix_intrinsic,"_AIMS_training_res.RData"))
-message("Finished intrinsic genes AIMS!")
+# #**************
+# #*Script Part 1
+# #**************
+# set.seed(12345678)
+# train_and_test_with_label <- produce_train_test_set(expr_with_label = datset_for_model)
+# train_and_test_res <- AIMS_train_and_pred(train_and_test_data_with_lable = train_and_test_with_label,
+#                                           PREFIX = res_prefix,
+#                                           k.fold = 10,num.of.rules = seq(1,50,1))
+# save(train_and_test_res,file = paste0(res_prefix,"_AIMS_training_res.RData"))
+# message("Finished all genes AIMS!")
+# 
+# 
+# 
+# #**************
+# #*Script Part 2
+# #**************
+# set.seed(12345678)
+# #using intrinsic genes
+# train_and_test_with_label_intrinsic <- produce_train_test_set(expr_with_label = datset_for_model_intrinsic_g)
+# train_and_test_res_intrinsic<-AIMS_train_and_pred(
+#   train_and_test_data_with_lable=train_and_test_with_label_intrinsic,PREFIX = res_prefix_intrinsic,
+#   k.fold = 10,num.of.rules = seq(1,50,1))
+# save(train_and_test_res_intrinsic,file = paste0(res_prefix_intrinsic,"_AIMS_training_res.RData"))
+# message("Finished intrinsic genes AIMS!")
 
 
 
