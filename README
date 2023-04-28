@@ -30,4 +30,4 @@ when you run the scripts, the scripts labeled as:
 should be run separately for several times to build the model.
 
 2. The results might be slightly different compared to the manuscript due to the data downloading order by TCGAbiolonks.
-If you want to fully reproduce the results in the manuscript, please rearrange the data order by the file sample_orders.txt (I would upload later)
+The varied results wouldnot affect the conclusion.
