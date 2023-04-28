@@ -223,17 +223,17 @@ train_and_test_res <- AIMS_train_and_pred(train_and_test_data_with_lable = train
 save(train_and_test_res,file = paste0(res_prefix,"_AIMS_training_res.RData"))
 message("Finished all genes AIMS!")
 
-# #**************
-# #*Script Part 2
-# #**************
-# set.seed(12345678)
-# #using intrinsic genes
-# train_and_test_with_label_intrinsic <- produce_train_test_set(expr_with_label = datset_for_model_intrinsic_g)
-# train_and_test_res_intrinsic<-AIMS_train_and_pred(
-#   train_and_test_data_with_lable=train_and_test_with_label_intrinsic,PREFIX = res_prefix_intrinsic,
-#   k.fold = 10,num.of.rules = seq(1,50,1))
-# save(train_and_test_res_intrinsic,file = paste0(res_prefix_intrinsic,"_AIMS_training_res.RData"))
-# message("Finished intrinsic genes AIMS!")
+#**************
+#*Script Part 2
+#**************
+set.seed(12345678)
+#using intrinsic genes
+train_and_test_with_label_intrinsic <- produce_train_test_set(expr_with_label = datset_for_model_intrinsic_g)
+train_and_test_res_intrinsic<-AIMS_train_and_pred(
+  train_and_test_data_with_lable=train_and_test_with_label_intrinsic,PREFIX = res_prefix_intrinsic,
+  k.fold = 10,num.of.rules = seq(1,50,1))
+save(train_and_test_res_intrinsic,file = paste0(res_prefix_intrinsic,"_AIMS_training_res.RData"))
+message("Finished intrinsic genes AIMS!")
 
 
 

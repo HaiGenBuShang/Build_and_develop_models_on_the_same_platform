@@ -257,19 +257,19 @@ setwd("../Results/")
 #***********************************************************************************
 
 
-# #**************
-# #*Script Part 1
-# #**************
-# set.seed(12345678)
-# # #using all genes
-# datset_for_model$x <- tumor_expr[sample(1:nrow(tumor_expr),2000),]
-# set.seed(12345678)
-# train_and_test_with_label <- produce_train_test_set(expr_with_label = datset_for_model)
-# train_and_test_res <- AIMS_train_and_pred(train_and_test_data_with_lable = train_and_test_with_label,
-#                                           PREFIX = res_prefix,
-#                                           k.fold = 10,num.of.rules = seq(1,50,1))
-# save(train_and_test_res,file = paste0(res_prefix,"_AIMS_training_res.RData"))
-# message("Finished all genes AIMS!")
+#**************
+#*Script Part 1
+#**************
+set.seed(12345678)
+# #using all genes
+datset_for_model$x <- tumor_expr[sample(1:nrow(tumor_expr),2000),]
+set.seed(12345678)
+train_and_test_with_label <- produce_train_test_set(expr_with_label = datset_for_model)
+train_and_test_res <- AIMS_train_and_pred(train_and_test_data_with_lable = train_and_test_with_label,
+                                          PREFIX = res_prefix,
+                                          k.fold = 10,num.of.rules = seq(1,50,1))
+save(train_and_test_res,file = paste0(res_prefix,"_AIMS_training_res.RData"))
+message("Finished all genes AIMS!")
 
 
 
