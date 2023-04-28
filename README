@@ -20,10 +20,14 @@ Xiangnan Li
 #************************
 #*YOU SHOULD NOTE THAT!!!
 #************************
-Please read the comments in the scripts named with "model_building_for" in the "Data_and_Scripts_for_manuscripts/Scripts" directory.
+
+1. Please read the comments in the scripts named with "model_building_for" in the "Data_and_Scripts_for_manuscripts/Scripts" directory.
 The comments mainly tell you that 
 when you run the scripts, the scripts labeled as:
 #**************
 #*Script Part X
 #**************
 should be run separately for several times to build the model.
+
+2. The results might be slightly different compared to the manuscript due to the data downloading order by TCGAbiolonks.
+If you want to fully reproduce the results in the manuscript, please rearrange the data order by the file sample_orders.txt (I would upload later)
