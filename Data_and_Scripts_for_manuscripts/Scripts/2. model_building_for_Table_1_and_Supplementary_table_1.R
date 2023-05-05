@@ -140,7 +140,6 @@ setwd("../Results/")
 #**************
 #*Script Part 1
 #**************
-set.seed(12345678)
 train_and_test_with_label <- produce_train_test_set(expr_with_label = datset_for_model)
 train_and_test_res <- AIMS_train_and_pred(train_and_test_data_with_lable = train_and_test_with_label,
                                           PREFIX = res_prefix,
@@ -153,7 +152,6 @@ message("Finished all genes AIMS!")
 #**************
 #*Script Part 2
 #**************
-set.seed(12345678)
 #using intrinsic genes
 train_and_test_with_label_intrinsic <- produce_train_test_set(expr_with_label = datset_for_model_intrinsic_g)
 train_and_test_res_intrinsic<-AIMS_train_and_pred(
@@ -167,12 +165,10 @@ message("Finished intrinsic genes AIMS!")
 #**************
 #*Script Part 3
 #**************
-set.seed(12345678)
 # using all genes
 PAM_and_PAM_plus_Cor <- n_times_compare(expr_with_label = datset_for_model,n_times = 20,train_proportion = 2/3,
                                         auto_pam_delt = TRUE,n_threshold = 50,
                                         auto_delt_by="min_CV_error",prior="class")
-set.seed(12345678)
 ClaNC_and_PAM_train <- n_times_CLaNC_and_PAM_com(expr_with_label = datset_for_model,ntimes = 20,
                                                  train_proportion = 2/3,
                                                  already_train_and_test_set=FALSE,show_message = FALSE,
@@ -185,13 +181,11 @@ save(PAM_and_PAM_plus_Cor,ClaNC_and_PAM_train,file = paste0(res_prefix,"_ClaNC_a
 #**************
 #*Script Part 4
 #**************
-set.seed(12345678)
 #using intrinsic gens
 PAM_and_PAM_plus_Cor_intrinsic <- n_times_compare(expr_with_label = datset_for_model_intrinsic_g,
                                                   n_times = 20,train_proportion = 2/3,
                                                   auto_pam_delt = TRUE,n_threshold = 50,
                                                   auto_delt_by="min_CV_error",prior="class")
-set.seed(12345678)
 ClaNC_and_PAM_train_intrinsic <- n_times_CLaNC_and_PAM_com(expr_with_label = datset_for_model_intrinsic_g,
                                                            ntimes = 20,
                                                            train_proportion = 2/3,

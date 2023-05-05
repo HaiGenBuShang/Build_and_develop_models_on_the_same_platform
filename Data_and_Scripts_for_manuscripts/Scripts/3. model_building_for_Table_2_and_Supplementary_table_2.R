@@ -233,7 +233,6 @@ message("Finished intrinsic genes AIMS!")
 #**************
 #*Script Part 3
 #**************
-set.seed(12345678)
 # train model using PAM50 strategies
 # using all genes
 PAM_and_PAM_plus_Cor <- n_times_compare(expr_with_label = datset_for_model,n_times = 20,train_proportion = 2/3,
@@ -251,7 +250,6 @@ save(PAM_and_PAM_plus_Cor,ClaNC_and_PAM_train,file = paste0(res_prefix,"_ClaNC_a
 #**************
 #*Script Part 4
 #**************
-set.seed(12345678)
 #train model using PAM50 strategies
 #using intrinsic gens
 PAM_and_PAM_plus_Cor_intrinsic <- n_times_compare(expr_with_label = datset_for_model_intrinsic_g,
@@ -291,7 +289,6 @@ res_prefix_intrinsic <- "TCGA_array_intersect_gene_consensus_sample_intrinsic_ge
 #**************
 #*Script Part 5
 #**************
-set.seed(12345678)
 train_and_test_with_label <- produce_train_test_set(expr_with_label = datset_for_model)
 train_and_test_res <- AIMS_train_and_pred(train_and_test_data_with_lable = train_and_test_with_label,
                                           PREFIX = res_prefix,
@@ -302,7 +299,6 @@ message("Finished all genes AIMS!")
 #**************
 #*Script Part 6
 #**************
-set.seed(12345678)
 #using intrinsic genes
 train_and_test_with_label_intrinsic <- produce_train_test_set(expr_with_label = datset_for_model_intrinsic_g)
 train_and_test_res_intrinsic<-AIMS_train_and_pred(
@@ -315,7 +311,6 @@ message("Finished intrinsic genes AIMS!")
 #**************
 #*Script Part 7
 #**************
-set.seed(12345678)
 # train model using PAM50 strategies
 # using all genes
 PAM_and_PAM_plus_Cor <- n_times_compare(expr_with_label = datset_for_model,n_times = 20,train_proportion = 2/3,
@@ -333,7 +328,6 @@ save(PAM_and_PAM_plus_Cor,ClaNC_and_PAM_train,file = paste0(res_prefix,"_ClaNC_a
 #**************
 #*Script Part 8
 #**************
-set.seed(12345678)
 #train model using PAM50 strategies
 #using intrinsic gens
 PAM_and_PAM_plus_Cor_intrinsic <- n_times_compare(expr_with_label = datset_for_model_intrinsic_g,
